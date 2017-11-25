@@ -47,13 +47,14 @@ def edad():
 
 # funcion genero
 # devuelve un valor entre 0 y 1 para asignar genero siguiendo la distribucion planteada
-def edad():
+def genero():
     r = rand.random()
-    if r <0.01005025126:
+    if r <0.4120603015:
         return 0
-    if r >= 0.01005025126 and r < 0.3467336683:
+    if r >= 0.4120603015 and r < 1:
         return 1
     
 for i in range(0,100):
     print('bebida',bebida())
     print('edad',edad())
+    print('genero',genero())
