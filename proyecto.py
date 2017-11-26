@@ -2,7 +2,6 @@ import itertools
 import random as rand
 import simpy
 
-
 maxlatas = 200     # latas totales en la maquina
 lata1 = 100
 intervalo = [30, 300]        # generar una persona entre [min,max] segundos
@@ -65,20 +64,64 @@ def persona(nombre, env, dispensadora, bebida):
     print('%s llega a la dispensadora en %.1f segundos.'  % (nombre, env.now))
     with dispensadora.request() as req:
         start = env.now
+        if bebida == 0:
+            yield bebida0.get(1)
+            yield env.timeout(rand.random()*10)
+            print('%s compra una LATA0 en %.1f seconds.' % (nombre, env.now - start))
+            
+        if bebida == 1:
+            yield bebida1.get(1)
+            yield env.timeout(rand.random()*10)
+            print('%s compra una LATA1 en %.1f seconds.' % (nombre, env.now - start))
+            
+        if bebida == 2:
+            yield bebida1.get(1)
+            yield env.timeout(rand.random()*10)
+            print('%s compra una LATA2 en %.1f seconds.' % (nombre, env.now - start))
+            
+        if bebida == 3:
+            yield bebida1.get(1)
+            yield env.timeout(rand.random()*10)
+            print('%s compra una LATA3 en %.1f seconds.' % (nombre, env.now - start))
+            
+        if bebida == 4:
+            yield bebida1.get(1)
+            yield env.timeout(rand.random()*10)
+            print('%s compra una LATA4 en %.1f seconds.' % (nombre, env.now - start))
+            
+        if bebida == 5:
+            yield bebida1.get(1)
+            yield env.timeout(rand.random()*10)
+            print('%s compra una LATA5 en %.1f seconds.' % (nombre, env.now - start))
+            
+        if bebida == 6:
+           yield bebida1.get(1)
+           yield env.timeout(rand.random()*10)
+           print('%s compra una LATA6 en %.1f seconds.' % (nombre, env.now - start))
+            
+        if bebida == 7:
+            yield bebida1.get(1)
+            yield env.timeout(rand.random()*10)
+            print('%s compra una LATA7 en %.1f seconds.' % (nombre, env.now - start))
+            
+        if bebida == 8:
+            yield bebida1.get(1)
+            yield env.timeout(rand.random()*10)
+            print('%s compra una LATA8 en %.1f seconds.' % (nombre, env.now - start))
 
-        yield bebida1.get(1)
-        yield env.timeout(rand.random()*10)
-        print('%s compra una en %.1f seconds.' % (nombre, env.now - start))
-
+            
 def generar_persona(env, dispensadora, bebida1):
     for i in itertools.count():
         yield env.timeout(rand.randint(*intervalo))
         nombre = 'genero'+repr(genero())+'edad'+repr(edad())
-        bebida
-        env.process(persona(nombre, env, dispensadora, bebida))
+        lata = bebida()
+        env.process(persona(nombre, env, dispensadora, lata))
+
 
 env = simpy.Environment()
 dispensadora = simpy.Resource(env, 1)
+bebida0 = simpy.Container(env,maxlatas, init= lata1)
 bebida1 = simpy.Container(env,maxlatas, init= lata1)
 env.process(generar_persona(env, dispensadora, bebida))
 env.run(until=ttotal)
+
