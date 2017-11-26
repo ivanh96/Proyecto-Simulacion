@@ -11,51 +11,54 @@ print("La máquina dispensa 9 distintos tipos de bebidas. A continuación, se te
 print("Debes tomar en cuenta que la máquina únicamente puede almacenar hasta 100 latas de cada tipo.")
 print("")
 enter = input("Presiona enter para continuar.")
+
 maxlatas = 100     # latas totales en la maquina
 inicial=[0 for i in range(9)] #valores iniciales que se le metieron a la maquina
 vendidos=[0 for i in range(9)]    #conteo de cuantas bebidas se han vendido
 edades=[0 for i in range(8)]
 lata0 = 101
+
 while(lata0>maxlatas):
-    lata0=int(input("Ingresa la cantidad de latas de Coca Cola iniiciales (no puede ser mayor a 100):"))
+    lata0=int(input("Ingresa la cantidad de latas de Coca Cola iniciales (no puede ser mayor a 100):"))
 inicial[0]=lata0
 lata1 = 101
 while(lata1>maxlatas):
-    lata1=int(input("Ingresa la cantidad de latas de Jugo de Naranja iniiciales (no puede ser mayor a 100):"))
+    lata1=int(input("Ingresa la cantidad de latas de Jugo de Naranja iniciales (no puede ser mayor a 100):"))
 inicial[1]=lata1
 lata2 = 101
 while(lata2>maxlatas):
-    lata2=int(input("Ingresa la cantidad de latas de Naranjada con Soda iniiciales (no puede ser mayor a 100):"))
+    lata2=int(input("Ingresa la cantidad de latas de Naranjada con Soda iniciales (no puede ser mayor a 100):"))
 inicial[2]=lata2
 lata3 = 101
 while(lata3>maxlatas):
-    lata3=int(input("Ingresa la cantidad de latas de Limonada con Soda iniiciales (no puede ser mayor a 100):"))
+    lata3=int(input("Ingresa la cantidad de latas de Limonada con Soda iniciales (no puede ser mayor a 100):"))
 inicial[3]=lata3
 lata4 = 101
 while(lata4>maxlatas):
-    lata4=int(input("Ingresa la cantidad de latas de Agua Pura iniiciales (no puede ser mayor a 100):"))
+    lata4=int(input("Ingresa la cantidad de latas de Agua Pura iniciales (no puede ser mayor a 100):"))
 inicial[4]=lata4
 lata5 = 101
 while(lata5>maxlatas):
-    lata5=int(input("Ingresa la cantidad de latas de Orange Crush iniiciales (no puede ser mayor a 100):"))
+    lata5=int(input("Ingresa la cantidad de latas de Orange Crush iniciales (no puede ser mayor a 100):"))
 inicial[5]=lata5
 lata6 = 101
 while(lata6>maxlatas):
-    lata6=int(input("Ingresa la cantidad de latas de Jugo Kern's iniiciales (no puede ser mayor a 100):"))
+    lata6=int(input("Ingresa la cantidad de latas de Jugo Kern's iniciales (no puede ser mayor a 100):"))
 inicial[6]=lata6
 lata7 = 101
 while(lata7>maxlatas):
-    lata7=int(input("Ingresa la cantidad de latas de gaseosa de Uva iniiciales (no puede ser mayor a 100):"))
+    lata7=int(input("Ingresa la cantidad de latas de gaseosa de Uva iniciales (no puede ser mayor a 100):"))
 inicial[7]=lata7
 lata8 = 101
 while(lata8>maxlatas):
-    lata8=int(input("Ingresa la cantidad de latas de Coca Cola Light iniiciales (no puede ser mayor a 100):"))
+    lata8=int(input("Ingresa la cantidad de latas de Coca Cola Light iniciales (no puede ser mayor a 100):"))
 inicial[8]=lata8
 intervalo = [30, 600]        # generar una persona entre [min,max] segundos
 
 print("")
 ttotal = int(input("Ahora ingresa el tiempo que deseas que tarde la simulación, en segundos:"))            # tiempo total en segundos
 enter=input("Perfecto, todos los datos listos. Presiona 'Enter' para empezar la simulación.")
+
 # funcion bebida
 # devuelve un valor entre 0 y 8 para asignar bebida siguiendo la distribucion planteada
 def bebida():
@@ -116,7 +119,10 @@ def genero():
         return "Mujer"
     if r >= 0.4120603015 and r < 1:
         return "Hombre"
-    
+
+# funcion persona
+# genera el evento en que una persona de un genero y un rango de edad decide comprar una bebida
+# la persona se tardara un tiempo aleatorio para escoger, comprar y recoger su bebida
 def persona(nombre, env, dispensadora, bebida):
     print('%s llega a la dispensadora en el segundo %.1f.'  % (nombre, env.now))
     with dispensadora.request() as req:
@@ -175,7 +181,8 @@ def persona(nombre, env, dispensadora, bebida):
             yield env.timeout(rand.randint(10,30))
             print('%s compra una Coca Cola Light en %.1f segundos.' % (nombre, env.now - start))
 
-            
+# funcion generar_persona
+# genera una nueva persona entre un intervalo de tiempo aleatorio, le asigna un genero, edad y bebida que quiere comprar
 def generar_persona(env, dispensadora, bebida1):
     for i in itertools.count():
         yield env.timeout(rand.randint(*intervalo))
